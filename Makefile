@@ -28,8 +28,8 @@
 # SOFTWARE.
 
 # set your MCU type here, or make command line `make MCU=MK20DX256`
-MCU=MK20DX256
-#MCU=MKL26Z64
+#MCU=MK20DX256
+MCU=MKL26Z64
 #MCU=MK64FX512
 #MCU=MK66FX1M0
 
@@ -38,7 +38,7 @@ LOWER_MCU := $(subst A,a,$(subst B,b,$(subst C,c,$(subst D,d,$(subst E,e,$(subst
 MCU_LD = $(LOWER_MCU).ld
 
 # The name of your project (used to name the compiled .hex file)
-TARGET = main
+TARGET = 01-write-dac
 
 # Those that specify a NO_ARDUINO environment variable will
 # be able to use this Makefile with no Arduino dependency.
@@ -57,8 +57,8 @@ OPTIONS += -D__$(MCU)__ -DARDUINO=10805 -DTEENSYDUINO=144
 
 # use "cortex-m4" for Teensy 3.x
 # use "cortex-m0plus" for Teensy LC
-CPUARCH = cortex-m4
-#CPUARCH = cortex-m0plus
+#CPUARCH = cortex-m4
+CPUARCH = cortex-m0plus
 
 
 # Other Makefiles and project templates for Teensy 3.x:
@@ -73,7 +73,7 @@ CPUARCH = cortex-m4
 # To use this makefile without Arduino, copy the resources from these
 # locations and edit the pathnames.  The rest of Arduino is not needed.
 #************************************************************************
-
+ARDUINOPATH=./arduino-1.8.13
 ifdef ARDUINOPATH
 
 # path location for Teensy Loader, teensy_post_compile and teensy_reboot (on Linux)
@@ -84,6 +84,10 @@ LIBRARYPATH = $(abspath $(ARDUINOPATH)/libraries)
 
 # path location for the arm-none-eabi compiler
 COMPILERPATH = $(abspath $(ARDUINOPATH)/hardware/tools/arm/bin)
+
+# path location for the mcu ld files
+MCULDPATH = $(abspath $(ARDUINOPATH)/hardware/teensy/avr/cores/teensy3)
+$(info $(MCULDPATH))
 
 else
 # Default to the normal GNU/Linux compiler path if NO_ARDUINO
@@ -129,6 +133,8 @@ OBJS := $(C_FILES:.c=.o) $(CPP_FILES:.cpp=.o)
 
 all: $(TARGET).hex
 
+MCU_LD := $(MCULDPATH)/$(MCU_LD)
+$(info $(MCU_LD))
 $(TARGET).elf: $(OBJS) $(MCU_LD)
 	$(CC) $(LDFLAGS) -o $@ $(OBJS) $(LIBS)
 
