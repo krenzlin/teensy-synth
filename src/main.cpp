@@ -1,4 +1,5 @@
 #include "WProgram.h"
+#include "misc.h"
 
 constexpr int sr = 44100;
 constexpr uint16_t max_dac = 1 << 12;
@@ -34,7 +35,7 @@ void audio_loop() {
 extern "C" int main(void) {
 
     for (auto i=0; i<127; i++) {
-        m_to_incr[i] = pow(2.0, (i - 69.0)/12.0) * 440.0 / sr * max_dac;
+        m_to_incr[i] = misc::m_to_f(i) / sr * max_dac;
     }
 
     Serial1.begin(9600);
