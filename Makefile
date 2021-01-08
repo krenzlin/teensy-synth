@@ -38,7 +38,7 @@ LOWER_MCU := $(subst A,a,$(subst B,b,$(subst C,c,$(subst D,d,$(subst E,e,$(subst
 MCU_LD = $(LOWER_MCU).ld
 
 # The name of your project (used to name the compiled .hex file)
-TARGET = 01-write-dac
+TARGET = synth
 
 # Those that specify a NO_ARDUINO environment variable will
 # be able to use this Makefile with no Arduino dependency.
@@ -87,7 +87,6 @@ COMPILERPATH = $(abspath $(ARDUINOPATH)/hardware/tools/arm/bin)
 
 # path location for the mcu ld files
 MCULDPATH = $(abspath $(ARDUINOPATH)/hardware/teensy/avr/cores/teensy3)
-$(info $(MCULDPATH))
 
 else
 # Default to the normal GNU/Linux compiler path if NO_ARDUINO
@@ -102,6 +101,7 @@ endif
 
 # CPPFLAGS = compiler options for C and C++
 CPPFLAGS = -Wall -g -Os -mcpu=$(CPUARCH) -mthumb -MMD $(OPTIONS) -I.
+CPPFLAGS += -Iarduino-1.8.13/hardware/teensy/avr/cores/teensy3
 
 # compiler options for C++ only
 CXXFLAGS = -std=gnu++14 -felide-constructors -fno-exceptions -fno-rtti
@@ -128,13 +128,11 @@ C_FILES := $(wildcard *.c)
 CPP_FILES := $(wildcard *.cpp)
 OBJS := $(C_FILES:.c=.o) $(CPP_FILES:.cpp=.o)
 
-
 # the actual makefile rules (all .o files built by GNU make's default implicit rules)
 
 all: $(TARGET).hex
 
 MCU_LD := $(MCULDPATH)/$(MCU_LD)
-$(info $(MCU_LD))
 $(TARGET).elf: $(OBJS) $(MCU_LD)
 	$(CC) $(LDFLAGS) -o $@ $(OBJS) $(LIBS)
 
