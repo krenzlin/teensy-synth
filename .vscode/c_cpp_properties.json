@@ -1,0 +1,18 @@
+{
+    "configurations": [
+        {
+            "name": "Teensy LC Synth",
+            "includePath": [
+                "${workspaceFolder}/src/**",
+                "${workspaceFolder}/arduino-1.8.13/hardware/teensy/avr/cores/teensy3/**"
+            ],
+
+            "defines": [],
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "gcc-x64"
+        }
+    ],
+    "version": 4
+}
