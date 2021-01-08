@@ -1,5 +1,8 @@
-# teensy-synth
-exploratory repo on using the teensy (lc) as a synth and sample player
+# Teensy LC Synth
+
+Experiments on using the Teensy LC as a synth and sample player.
+
+Uses a modified version of [apmorton/teensy-template](https://github.com/apmorton/teensy-template)'s Makefile
 
 # install Teensyduino
 c.f. https://forum.pjrc.com/threads/62671-teensyduino-linux-installer-issue?p=250603&viewfull=1#post250603
@@ -14,3 +17,5 @@ chmod 755 TeensyduinoInstall.linux64
 ./TeensyduinoInstall.linux64 --dir=arduino-1.8.13
 cd arduino-1.8.13
 ```
+
+If you choose to install Teensyduino elsewhere make sure to change the paths in `Makefile`
