@@ -23,11 +23,10 @@ void audio_loop() {
     analogWriteDAC0((phase_1 + phase_2) >> 1);
 
     phase_1 += m_to_incr[69];
-    phase_2 += m_to_incr[69];
+    phase_2 += m_to_incr[58];
 
     phase_1 = wrap(phase_1);
     phase_2 = wrap(phase_2);
-    Serial1.println(m_to_incr[69]);
 
 }
 
@@ -37,8 +36,6 @@ extern "C" int main(void) {
     for (auto i=0; i<127; i++) {
         m_to_incr[i] = misc::m_to_f(i) / sr * max_dac;
     }
-
-    Serial1.begin(9600);
 
     analogWriteResolution(12);
 
