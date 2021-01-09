@@ -6,7 +6,7 @@ float misc::m_to_f(const uint8_t note, const float tuning) {
     return pow(2.0, (note - 69.0)/12.0) * tuning;
 }
 
-uint16_t misc::m_to_incr(const uint8_t note) {
+uint32_t misc::m_to_incr(const uint8_t note) {
     return misc::m_to_f(note) / (float) misc::samplerate * UINT32_MAX;
 }
 

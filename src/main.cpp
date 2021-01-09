@@ -6,12 +6,12 @@
 
 hal::DAC dac;
 IntervalTimer timer;
-uint16_t m_to_incr[127];
+uint32_t m_to_incr[127];
 
 void audio_loop() {
     static uint32_t phase{0};
 
-    dac.write(phase);
+    dac.write(misc::u32_to_s32(phase));
 
     phase += m_to_incr[69];
 }

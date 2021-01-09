@@ -5,14 +5,21 @@
 namespace misc {
     constexpr float tuning = 440.f;
     constexpr uint16_t samplerate = 44100U;
-    constexpr uint16_t max_dac_value = (1 << 12);
 
     float m_to_f(const uint8_t note, const float tuning=tuning);
-    uint16_t m_to_incr(const uint8_t note);
+    uint32_t m_to_incr(const uint8_t note);
 
     uint16_t sr_to_us(const uint16_t sr=samplerate);
 
+    inline int32_t u32_to_s32(const uint32_t x) {
+        return x + INT32_MIN;
+    }
+
+    inline uint32_t s32_to_u32(const int32_t x) {
+        return x - INT32_MIN;
+    }
+
     inline uint16_t s32_to_u12(const int32_t x) {
-        return (x >> 20) + 0x800;
+        return misc::s32_to_u32(x) >> (32 - 12);  // (x - INT32_MIN) >> 20 === (x >> 20) + 0x800
     }
 }
