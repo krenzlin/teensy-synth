@@ -9,12 +9,11 @@ IntervalTimer timer;
 uint16_t m_to_incr[127];
 
 void audio_loop() {
-    static uint16_t phase{0};
+    static uint32_t phase{0};
 
     dac.write(phase);
 
-    phase += m_to_incr[69];
-    phase = misc::wrap(phase);
+    phase += 42852281;
 }
 
 

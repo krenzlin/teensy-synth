@@ -6,6 +6,7 @@ namespace hal {
         public:
             DAC();
             void write(uint16_t);
+            void write(uint32_t);
             void write(int32_t);
     };
 }
