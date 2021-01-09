@@ -10,10 +10,6 @@ TEST_CASE("samplerate to microseconds", "[misc]") {
     REQUIRE(misc::sr_to_us(44100) == 22);
 }
 
-TEST_CASE("wrap phase", "[misc]") {
-    REQUIRE(misc::wrap(4096) == 0);
-}
-
 TEST_CASE("signed 32 bit to unsigned 12 bit", "[misc]") {
     REQUIRE(misc::s32_to_u12(0) == 2048);
     REQUIRE(misc::s32_to_u12(INT32_MAX) == 4095);

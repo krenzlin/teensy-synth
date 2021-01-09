@@ -12,13 +12,6 @@ namespace misc {
 
     uint16_t sr_to_us(const uint16_t sr=samplerate);
 
-    inline uint16_t wrap(const uint16_t phase, const uint16_t max=max_dac_value) {
-        if (phase >= max) {
-            return phase - max;
-        }
-        return phase;
-    }
-
     inline uint16_t s32_to_u12(const int32_t x) {
         return (x >> 20) + 0x800;
     }

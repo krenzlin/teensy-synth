@@ -13,7 +13,7 @@ void audio_loop() {
 
     dac.write(phase);
 
-    phase += 42852281;
+    phase += m_to_incr[69];
 }
 
 
