@@ -18,4 +18,8 @@ namespace misc {
         }
         return phase;
     }
+
+    inline uint16_t s32_to_u12(const int32_t x) {
+        return (x >> 20) + 0x800;
+    }
 }
