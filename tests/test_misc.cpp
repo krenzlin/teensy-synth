@@ -9,3 +9,7 @@ TEST_CASE("midi to freq", "[misc]") {
 TEST_CASE("samplerate to microseconds", "[misc]") {
     REQUIRE(misc::sr_to_us(44100) == 22);
 }
+
+TEST_CASE("wrap phase", "[misc]") {
+    REQUIRE(misc::wrap(4096) == 0);
+}

@@ -14,7 +14,7 @@ namespace misc {
     uint16_t sr_to_us(const uint16_t sr=samplerate);
 
     inline uint16_t wrap(const uint16_t phase, const uint16_t max=max_dac_value) {
-        if (phase > max) {
+        if (phase >= max) {
             return phase - max;
         }
         return phase;
