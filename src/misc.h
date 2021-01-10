@@ -4,7 +4,7 @@
 
 namespace misc {
     constexpr float tuning = 440.f;
-    constexpr uint16_t samplerate = 44100U;
+    constexpr uint16_t samplerate = 50000U;
 
     float m_to_f(const uint8_t note, const float tuning=tuning);
     uint32_t m_to_incr(const uint8_t note);

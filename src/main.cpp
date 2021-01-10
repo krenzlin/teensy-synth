@@ -43,7 +43,7 @@ extern "C" int main(void) {
         m_to_incr[i] = misc::m_to_incr(i);
     }
 
-    saw.note_on(72, 127);
+    saw.note_on(69, 127);
 
     timer.begin(audio_loop, misc::sr_to_us());
 }
