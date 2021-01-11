@@ -1,13 +1,12 @@
 #include "IntervalTimer.h"
 #include <stdint.h>
 #include "dac.h"
+#include "luts.h"
 #include "misc.h"
 
 
 hal::DAC dac;
 IntervalTimer timer;
-uint32_t m_to_incr[127];
-
 
 class Saw {
     uint32_t phase{0};
@@ -17,7 +16,7 @@ class Saw {
     public:
 
         void note_on(uint8_t note, uint8_t /*velocity*/) {
-            p_incr = m_to_incr[note];
+            p_incr = luts::m_to_incr[note];
         }
 
         int32_t process() {
@@ -39,10 +38,6 @@ void audio_loop() {
 
 
 extern "C" int main(void) {
-    for (auto i=0; i<127; i++) {
-        m_to_incr[i] = misc::m_to_incr(i);
-    }
-
     saw.note_on(69, 127);
 
     timer.begin(audio_loop, misc::sr_to_us());
