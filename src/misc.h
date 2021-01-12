@@ -26,5 +26,5 @@ namespace misc {
 
     uint32_t fast_rand();
     float fast_float_rand();
-    uint8_t random_note();
+    uint8_t random_note(uint8_t min=0, uint8_t max=127);
 }

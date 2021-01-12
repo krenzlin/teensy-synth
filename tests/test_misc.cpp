@@ -60,3 +60,20 @@ TEST_CASE("random note", "[misc]") {
     }
     REQUIRE(non_zero);  // check if not all zeroes
 }
+
+TEST_CASE("random note w/ range", "[misc]") {
+    uint8_t min {64};
+    uint8_t max {79};
+    bool hit_min {false};
+    bool hit_max {false};
+
+    for (auto i=0; i<1000; i++) {
+        auto x = misc::random_note(min, max);
+        REQUIRE(x >= 64);
+        REQUIRE(x <= 79);
+        if (x == min) {hit_min = true;}
+        if (x == max) {hit_max = true;}
+    }
+    REQUIRE(hit_min);
+    REQUIRE(hit_max);
+}
