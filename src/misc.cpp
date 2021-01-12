@@ -45,3 +45,7 @@ float misc::fast_float_rand() {
     X_k *=  a;
     return (float) X_k * m_1 / 2.f;
 }
+
+uint8_t misc::random_note() {
+    return misc::fast_float_rand() * 128.0;
+}

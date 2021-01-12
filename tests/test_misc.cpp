@@ -49,3 +49,14 @@ TEST_CASE("fast_float_rand", "[misc]") {
         old = x;
     }
 }
+
+TEST_CASE("random note", "[misc]") {
+    bool non_zero {false};
+    for (auto i=0; i<1000; i++) {
+        auto x = misc::random_note();
+        REQUIRE(x >= 0);
+        REQUIRE(x <= 127);
+        if (x != 0) {non_zero = true;}
+    }
+    REQUIRE(non_zero);  // check if not all zeroes
+}

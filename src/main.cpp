@@ -1,7 +1,7 @@
+#include "WProgram.h"
 #include "IntervalTimer.h"
 #include <stdint.h>
 #include "dac.h"
-#include "luts.h"
 #include "misc.h"
 #include "osc.h"
 
