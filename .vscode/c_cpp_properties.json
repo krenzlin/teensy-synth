@@ -4,7 +4,9 @@
             "name": "Teensy LC Synth",
             "includePath": [
                 "${workspaceFolder}/src/**",
-                "${workspaceFolder}/arduino-1.8.13/hardware/teensy/avr/cores/teensy3/**"
+                "${workspaceFolder}/arduino-1.8.13/hardware/teensy/avr/cores/teensy3/**",
+                "${workspaceFolder}/bench/picobench/include/**"
+
             ],
 
             "defines": [],
