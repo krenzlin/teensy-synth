@@ -20,4 +20,9 @@ extern "C" int main(void) {
     saw.note_on(69, 127);
 
     timer.begin(audio_loop, misc::sr_to_us());
+
+    while(1) {
+        delay(1000);
+        saw.note_on(misc::random_note(50, 80));
+    }
 }
