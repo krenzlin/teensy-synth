@@ -27,3 +27,25 @@ TEST_CASE("signed 32 bit to unsigned 32 bit", "[misc]") {
     REQUIRE(misc::s32_to_u32(INT32_MIN) == 0);
     REQUIRE(misc::s32_to_u32(INT32_MAX) == UINT32_MAX);
 }
+
+TEST_CASE("fast_rand", "[misc]") {
+    uint32_t old {0};
+    for (auto i=0; i<1000; i++) {
+        auto x = misc::fast_rand();
+        REQUIRE(x >= 0);
+        REQUIRE(x <= UINT32_MAX);
+        REQUIRE(x != old);
+        old = x;
+    }
+}
+
+TEST_CASE("fast_float_rand", "[misc]") {
+    float old {0.0f};
+    for (auto i=0; i<1000; i++) {
+        auto x = misc::fast_float_rand();
+        REQUIRE(x >= 0.f);
+        REQUIRE(x < 1.f);
+        REQUIRE(x != old);
+        old = x;
+    }
+}
