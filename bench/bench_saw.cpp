@@ -11,9 +11,9 @@ static void saw_process(picobench::state& s)
     saw.note_on(69);
 
     s.start_timer(); // Manual start
-     for (auto _ : s) {
-         saw.process();
-     }
+    for (auto _ : s) {
+        saw.process();
+    }
     s.stop_timer(); // Manual stop
 }
 
@@ -29,11 +29,24 @@ static void two_saw_process(picobench::state& s)
 
 
     s.start_timer(); // Manual start
-     for (auto _ : s) {
-         saw1.process();
-         saw2.process();
-     }
+    for (auto _ : s) {
+        saw1.process();
+        saw2.process();
+    }
     s.stop_timer(); // Manual stop
 }
 
 PICOBENCH(two_saw_process);
+
+static void note_on(picobench::state& s)
+{
+    osc::Saw saw;
+
+    s.start_timer(); // Manual start
+    for (auto _ : s) {
+        saw.note_on(69);
+    }
+    s.stop_timer(); // Manual stop
+}
+
+PICOBENCH(note_on);

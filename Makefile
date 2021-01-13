@@ -42,4 +42,4 @@ bin/bench: $(BENCH_OBJS)
 	g++ $(CPP_FLAGS) $(INCLUDES) -o $@ $^
 
 bench: bin/bench
-	bin/bench
+	bin/bench --samples=100
