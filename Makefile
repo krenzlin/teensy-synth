@@ -15,10 +15,10 @@ CPP_FLAGS=-Wall -Wpedantic -Wextra -g
 
 TEST_SRC_FILES := $(wildcard src/*.cpp) $(wildcard tests/*.cpp)
 TEST_SRC_FILES := $(filter-out src/main.cpp, $(TEST_SRC_FILES))
-TEST_SRC_FILES := $(filter-out src/dac.cpp, $(TEST_SRC_FILES))
+#TEST_SRC_FILES := $(filter-out src/dac.cpp, $(TEST_SRC_FILES))
 TEST_OBJS := $(addprefix build/host/, $(TEST_SRC_FILES:.cpp=.o))
 
-INCLUDES = -I./src/ -I./bench/picobench/include/
+INCLUDES = -I./src/ -I./bench/picobench/include/ -I./tests/mocks
 
 bin/test: $(TEST_OBJS)
 	@mkdir -p $(dir $@)
