@@ -50,3 +50,17 @@ static void note_on(picobench::state& s)
 }
 
 PICOBENCH(note_on);
+
+static void process_with_note_on(picobench::state& s)
+{
+    osc::Saw saw;
+
+    s.start_timer();
+    saw.note_on(69);
+    for (auto _ : s) {
+        saw.process();
+    }
+    s.stop_timer();
+}
+
+PICOBENCH(process_with_note_on);
