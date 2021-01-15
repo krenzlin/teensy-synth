@@ -46,7 +46,7 @@ CPPFLAGS = -mthumb -ffunction-sections -fdata-sections -nostdlib -MMD $(OPTIONS)
 # warnings
 CPPFLAGS += -Wall -Wextra -Wpedantic
 # optimization flag
-CPPFLAGS += -O2
+CPPFLAGS += -Ofast
 # add debug flag
 CPPFLAGS += -g
 
