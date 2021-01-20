@@ -31,7 +31,7 @@
 MCU=IMXRT1062
 
 # The name of your project (used to name the compiled .hex file)
-TARGET = main
+TARGET = synth
 
 # configurable options
 OPTIONS = -DF_CPU=600000000 -DUSB_SERIAL -DLAYOUT_US_ENGLISH -DUSING_MAKEFILE
@@ -59,39 +59,29 @@ CPUOPTIONS = -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-d16 -mthumb
 # locations and edit the pathnames.  The rest of Arduino is not needed.
 #************************************************************************
 
-# Those that specify a NO_ARDUINO environment variable will
-# be able to use this Makefile with no Arduino dependency.
-# Please note that if ARDUINOPATH was set, it will override
-# the NO_ARDUINO behaviour.
-ifndef NO_ARDUINO
-# Path to your arduino installation
-ARDUINOPATH ?= ../../../../..
-endif
-
-ifdef ARDUINOPATH
+ARDUINOPATH=arduino-1.8.13
 
 # path location for Teensy Loader, teensy_post_compile and teensy_reboot (on Linux)
 TOOLSPATH = $(abspath $(ARDUINOPATH)/hardware/tools)
 
-# path location for Arduino libraries (currently not used)
-LIBRARYPATH = $(abspath $(ARDUINOPATH)/libraries)
+# path location for Arduino libraries
+LIBRARYPATH = libraries
+
 
 # path location for the arm-none-eabi compiler
 COMPILERPATH = $(abspath $(ARDUINOPATH)/hardware/tools/arm/bin)
 
-else
-# Default to the normal GNU/Linux compiler path if NO_ARDUINO
-# and ARDUINOPATH was not set.
-COMPILERPATH ?= /usr/bin
-
-endif
+COREPATH = $(abspath $(ARDUINOPATH)/hardware/teensy/avr/cores/teensy4)
+SRCPATH = src
+# directory to build in
+BUILDDIR = $(abspath $(CURDIR)/build)
 
 #************************************************************************
 # Settings below this point usually do not need to be edited
 #************************************************************************
 
 # CPPFLAGS = compiler options for C and C++
-CPPFLAGS = -Wall -g -O2 $(CPUOPTIONS) -MMD $(OPTIONS) -I. -ffunction-sections -fdata-sections
+CPPFLAGS = -Wall -g -O2 $(CPUOPTIONS) -MMD $(OPTIONS) -I$(SRCPATH) -I$(COREPATH) -ffunction-sections -fdata-sections
 
 # compiler options for C++ only
 CXXFLAGS = -std=gnu++14 -felide-constructors -fno-exceptions -fpermissive -fno-rtti -Wno-error=narrowing
@@ -113,33 +103,67 @@ OBJCOPY = $(COMPILERPATH)/arm-none-eabi-objcopy
 SIZE = $(COMPILERPATH)/arm-none-eabi-size
 
 # automatically create lists of the sources and objects
-# TODO: this does not handle Arduino libraries yet...
-C_FILES := $(wildcard *.c)
-CPP_FILES := $(wildcard *.cpp)
-OBJS := $(C_FILES:.c=.o) $(CPP_FILES:.cpp=.o)
+LC_FILES := $(wildcard $(LIBRARYPATH)/*/*.c)
+LCPP_FILES := $(wildcard $(LIBRARYPATH)/*/*.cpp)
+TC_FILES := $(wildcard $(COREPATH)/*.c)
+TCPP_FILES := $(wildcard $(COREPATH)/*.cpp)
+TCPP_FILES := $(filter-out $(COREPATH)/main.cpp, $(TCPP_FILES))
+C_FILES := $(wildcard $(SRCPATH)/*.c)
+CPP_FILES := $(wildcard $(SRCPATH)/*.cpp)
+INO_FILES := $(wildcard $(SRCPATH)/*.ino)
 
+# include paths for libraries
+L_INC := $(foreach lib,$(filter %/, $(wildcard $(LIBRARYPATH)/*/)), -I$(lib))
 
-# the actual makefile rules (all .o files built by GNU make's default implicit rules)
+SOURCES := $(C_FILES:.c=.o) $(CPP_FILES:.cpp=.o) $(INO_FILES:.ino=.o) $(TC_FILES:.c=.o) $(TCPP_FILES:.cpp=.o) $(LC_FILES:.c=.o) $(LCPP_FILES:.cpp=.o)
+OBJS := $(foreach src,$(SOURCES), $(BUILDDIR)/$(src))
 
-all: $(TARGET).hex
+all: hex
+
+build: $(TARGET).elf
+
+hex: $(TARGET).hex
+
+post_compile: $(TARGET).hex
+	@$(abspath $(TOOLSPATH))/teensy_post_compile -file="$(basename $<)" -path=$(CURDIR) -tools="$(abspath $(TOOLSPATH))"
+
+reboot:
+	@-$(abspath $(TOOLSPATH))/teensy_reboot
+
+upload: post_compile reboot
+
+$(BUILDDIR)/%.o: %.c
+	@echo -e "[CC]\t$<"
+	@mkdir -p "$(dir $@)"
+	@$(CC) $(CPPFLAGS) $(CFLAGS) $(L_INC) -o "$@" -c "$<"
+
+$(BUILDDIR)/%.o: %.cpp
+	@echo -e "[CXX]\t$<"
+	@mkdir -p "$(dir $@)"
+	@$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(L_INC) -o "$@" -c "$<"
+
+$(BUILDDIR)/%.o: %.ino
+	@echo -e "[CXX]\t$<"
+	@mkdir -p "$(dir $@)"
+	@$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(L_INC) -o "$@" -x c++ -include Arduino.h -c "$<"
 
 $(TARGET).elf: $(OBJS) $(MCU_LD)
-	$(CC) $(LDFLAGS) -o $@ $(OBJS) $(LIBS)
+	@echo -e "[LD]\t$@"
+	@$(CC) $(LDFLAGS) -o "$@" $(OBJS) $(LIBS)
 
 %.hex: %.elf
-	$(SIZE) $<
-	$(OBJCOPY) -O ihex -R .eeprom $< $@
-ifneq (,$(wildcard $(TOOLSPATH)))
-	$(TOOLSPATH)/teensy_post_compile -file=$(basename $@) -path=$(shell pwd) -tools=$(TOOLSPATH)
-	-$(TOOLSPATH)/teensy_reboot
-endif
+	@echo -e "[HEX]\t$@"
+	@$(SIZE) "$<"
+	@$(OBJCOPY) -O ihex -R .eeprom "$<" "$@"
 
 # compiler generated dependency info
 -include $(OBJS:.o=.d)
 
 # make "MCU" lower case
 LOWER_MCU := $(subst A,a,$(subst B,b,$(subst C,c,$(subst D,d,$(subst E,e,$(subst F,f,$(subst G,g,$(subst H,h,$(subst I,i,$(subst J,j,$(subst K,k,$(subst L,l,$(subst M,m,$(subst N,n,$(subst O,o,$(subst P,p,$(subst Q,q,$(subst R,r,$(subst S,s,$(subst T,t,$(subst U,u,$(subst V,v,$(subst W,w,$(subst X,x,$(subst Y,y,$(subst Z,z,$(MCU)))))))))))))))))))))))))))
-MCU_LD = $(LOWER_MCU).ld
+MCU_LD = $(COREPATH)/$(LOWER_MCU).ld
 
 clean:
-	rm -f *.o *.d $(TARGET).elf $(TARGET).hex
+	@echo Cleaning...
+	@rm -rf "$(BUILDDIR)"
+	@rm -f "$(TARGET).elf" "$(TARGET).hex"

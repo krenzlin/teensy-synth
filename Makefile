@@ -3,13 +3,13 @@
 all: build upload
 
 clean:
-	make -f TeensyMakefile.mk clean
+	make -f teensy4.mk clean
 
 build:
-	make -f TeensyMakefile.mk build
+	make -f teensy4.mk build
 
 upload: build
-	make -f TeensyMakefile.mk build upload
+	make -f teensy4.mk upload
 
 check:
 	cppcheck --enable=all src/
