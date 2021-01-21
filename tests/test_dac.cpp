@@ -1,4 +1,4 @@
-#include "catch.hpp"
+#include "doctest.h"
 #include <stdint.h>
 #include "dac.h"
 #include "mocks/core_pins.h"
@@ -14,7 +14,7 @@ void analogWriteDAC0(int val) {
     mock_analogWriteDAC0_val = val;
 }
 
-TEST_CASE("writing signed 32 bit to DAC", "[dac]") {
+TEST_CASE("writing signed 32 bit to DAC") {
     hal::DAC dac;
 
     REQUIRE(called_analogWriteResolution);

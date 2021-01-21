@@ -1,7 +1,7 @@
-#include "catch.hpp"
+#include "doctest.h"
 #include "osc.h"
 
-TEST_CASE("raising saw", "[osc]") {
+TEST_CASE("raising saw") {
     osc::Saw saw;
 
     saw.note_on(69);
@@ -11,7 +11,7 @@ TEST_CASE("raising saw", "[osc]") {
 }
 
 
-TEST_CASE("two saws", "[osc]") {
+TEST_CASE("two saws") {
     // Sanity checks that two different notes have different phase increments
     osc::Saw saw1;
     osc::Saw saw2;
