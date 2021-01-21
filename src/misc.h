@@ -17,7 +17,7 @@ namespace misc {
     }
 
     inline uint32_t s32_to_u32(const int32_t x) {
-        return x - INT32_MIN;
+        return (uint32_t) x - (uint32_t) INT32_MIN;
     }
 
     inline uint16_t s32_to_u12(const int32_t x) {

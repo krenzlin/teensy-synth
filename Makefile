@@ -11,7 +11,7 @@ build:
 upload: build
 	make -f TeensyMakefile.mk build upload
 
-CPP_FLAGS=-Wall -Wpedantic -Wextra -g
+CPP_FLAGS=-Wall -Wpedantic -Wextra -g -fsanitize=address,undefined
 
 TEST_SRC_FILES := $(wildcard src/*.cpp) $(wildcard tests/*.cpp)
 TEST_SRC_FILES := $(filter-out src/main.cpp, $(TEST_SRC_FILES))
