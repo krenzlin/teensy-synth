@@ -1,10 +1,9 @@
-# Teensy LC Synth
+# Teensy Synth
 
-Experiments on using the Teensy LC as a synth and sample player.
+Started as experiments on the Teensy LC and now is evolving into using the Teensy 4.0 with the Audio Board.
 
-Uses a modified version of [apmorton/teensy-template](https://github.com/apmorton/teensy-template)'s Makefile
 
-# install Teensyduino
+## install Teensyduino
 c.f. https://forum.pjrc.com/threads/62671-teensyduino-linux-installer-issue?p=250603&viewfull=1#post250603
 
 ```
@@ -18,4 +17,30 @@ chmod 755 TeensyduinoInstall.linux64
 cd arduino-1.8.13
 ```
 
-If you choose to install Teensyduino elsewhere make sure to change the paths in `Makefile`
+## edit paths and libraries
+
+`teensy4.mk` is the Makefile for building and uploading this project to the Teensy 4.0 and is called from the main `Makefile`.
+Change paths and flags to your needs, esp. the `ARDUINOPATH` to the Teensyduino installation.
+
+```
+TARGET = synth  # name of hex file and where it will be stored
+SRCDIR = src    # directory of your source files
+BUILDDIR = build  # where to put object files
+LOCALLIBDIR = libs  # directory with local libraries, e.g. via git submodules or just copied
+ARDUINOPATH = arduino-1.8.13 # path to the teensyduino installation
+ARDUINOLIBS = SD SPI SerialFlash Wire # which Arduino libs to compile
+```
+
+## build and upload
+
+To build the final hex run `make build` and to upload `make upload`. Or in a single command with just `make`.
+
+## testing, benchmarking and cppcheck
+
+This project has tests and benchmarks to be run on the host.
+See `Makefile` for details.
+
+`make test`
+
+`make bench`
+

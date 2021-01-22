@@ -1,4 +1,4 @@
-TARGET = bin/synth
+TARGET = synth
 
 SRCDIR = src
 BUILDDIR = build
