@@ -5,8 +5,10 @@
             "includePath": [
                 "${workspaceFolder}/src/**",
                 "${workspaceFolder}/arduino-1.8.13/hardware/teensy/avr/cores/teensy3/**",
-                "${workspaceFolder}/bench/picobench/include/**"
-
+                "${workspaceFolder}/bench/picobench/include/**",
+                "${workspaceFolder}/libs/Audio/**",
+                "${workspaceFolder}/libs/Audio/utility/**",
+                "${workspaceFolder}/arduino-1.8.13/hardware/teensy/avr/libraries/**"
             ],
 
             "defines": [],

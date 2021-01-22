@@ -1,3 +1,6 @@
 [submodule "bench/picobench"]
 	path = bench/picobench
 	url = https://github.com/iboB/picobench
+[submodule "libs/Audio"]
+	path = libs/Audio
+	url = https://github.com/PaulStoffregen/Audio
