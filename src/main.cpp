@@ -1,9 +1,9 @@
 #include <Audio.h>
+#include "AudioObjects.h"
 #include "misc.h"
-#include "osc.h"
 
 AudioOutputI2S        i2s1;
-osc::AudioSaw saw;
+Saw saw;
 AudioConnection       patchCord1(saw, 0, i2s1, 0);
 AudioConnection       patchCord2(saw, 0, i2s1, 1);
 AudioControlSGTL5000  sgtl5000_1;
