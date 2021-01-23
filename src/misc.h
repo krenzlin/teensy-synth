@@ -24,6 +24,10 @@ namespace misc {
         return misc::s32_to_u32(x) >> (32 - 12);  // (x - INT32_MIN) >> 20 === (x >> 20) + 0x800
     }
 
+    inline int16_t s32_to_s16(const int32_t x) {
+        return x >> (32 - 16);
+    }
+
     uint32_t fast_rand();
     float fast_float_rand();
     uint8_t random_note(uint8_t min=0, uint8_t max=127);

@@ -28,6 +28,11 @@ TEST_CASE("signed 32 bit to unsigned 32 bit") {
     REQUIRE(misc::s32_to_u32(INT32_MAX) == UINT32_MAX);
 }
 
+TEST_CASE("signed 32 bit to signed 16 bit") {
+    REQUIRE(misc::s32_to_s16(INT32_MIN) == INT16_MIN);
+    REQUIRE(misc::s32_to_s16(INT32_MAX) == INT16_MAX);
+}
+
 TEST_CASE("fast_rand") {
     uint32_t old {0};
     for (auto i=0; i<1000; i++) {

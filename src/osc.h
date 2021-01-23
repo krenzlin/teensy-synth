@@ -1,6 +1,8 @@
 #pragma once
 #include <stdint.h>
+#include "Audio.h"
 
+#define AUDIO_BLOCK_SAMPLES 128
 
 namespace osc {
     class Saw {
@@ -11,5 +13,15 @@ namespace osc {
         public:
             void note_on(uint8_t note, uint8_t velocity=127);
             int32_t process();
+    };
+
+    class AudioSaw : public AudioStream {
+        private:
+            Saw saw;
+
+        public:
+            AudioSaw() : AudioStream(0, NULL) {saw.note_on(69);};
+            void update(void);
+            void note_on(uint8_t note, uint8_t velocity=127);
     };
 }
