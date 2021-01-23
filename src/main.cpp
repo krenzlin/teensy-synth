@@ -2,10 +2,14 @@
 #include "AudioObjects.h"
 #include "misc.h"
 
-AudioOutputI2S        i2s1;
+AudioOutputI2S        i2s;
+AudioMixer4 mixer;
 Saw saw;
-AudioConnection       patchCord1(saw, 0, i2s1, 0);
-AudioConnection       patchCord2(saw, 0, i2s1, 1);
+Saw saw2;
+AudioConnection       patchCord1(saw, 0, mixer, 0);
+AudioConnection       patchCord2(saw2, 0, mixer, 1);
+AudioConnection mixer_to_i2s_l(mixer, 0, i2s, 0);
+AudioConnection mixer_to_i2s_r(mixer, 0, i2s, 1);
 AudioControlSGTL5000  sgtl5000_1;
 
 
@@ -19,6 +23,7 @@ int main() {
     while(1) {
         auto note = misc::random_note(60, 80);
         saw.note_on(note);
+        saw2.note_on(misc::random_note(60, 80));
         delay(1000);
     }
 }
