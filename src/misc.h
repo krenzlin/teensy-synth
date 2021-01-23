@@ -4,7 +4,11 @@
 
 namespace misc {
     constexpr float tuning {440.f};
-    constexpr uint16_t samplerate {50000U};
+#ifdef AUDIO_SAMPLE_RATE_EXACT
+    constexpr uint16_t samplerate {(uint16_t) AUDIO_SAMPLE_RATE_EXACT};
+#else
+    constexpr uint16_t samplerate {48000U};
+#endif
     constexpr uint32_t random_seed {42U}; // must be non-zero!!
 
     float m_to_f(const uint8_t note, const float tuning=tuning);
