@@ -4,7 +4,6 @@
 
 *.hex
 *.elf
-*.S
 
 # Prerequisites
 *.d
