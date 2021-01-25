@@ -25,7 +25,13 @@ class AudioObject : public AudioStream, T {
         void note_on(uint8_t note, uint8_t velocity=127) {
             T::note_on(note, velocity);
         }
+
+        void note_off(uint8_t note, uint8_t velocity=127) {
+            T::note_off(note, velocity);
+        }
+
+
 };
 
 using Saw = AudioObject<osc::Saw>;
-using PolyBLEPSaw = AudioObject<osc::PolyBLEPSaw>;
+//using PolyBLEPSaw = AudioObject<osc::PolyBLEPSaw>;

@@ -31,15 +31,19 @@ S_FILES += $(wildcard $(COREDIR)/*.S)
 # local libraries
 INC += $(foreach lib,$(filter %/, $(wildcard $(LOCALLIBDIR)/*/)), -I$(lib))
 INC += $(foreach lib,$(filter %/, $(wildcard $(LOCALLIBDIR)/*/utility/)), -I$(lib))
+INC += $(foreach lib,$(filter %/, $(wildcard $(LOCALLIBDIR)/*/src/)), -I$(lib))
 
 C_FILES += $(wildcard $(LOCALLIBDIR)/*/*.c)
 C_FILES += $(wildcard $(LOCALLIBDIR)/*/utility/*.c)
+C_FILES += $(wildcard $(LOCALLIBDIR)/*/src/*.c)
 
 CPP_FILES += $(wildcard $(LOCALLIBDIR)/*/*.cpp)
 CPP_FILES += $(wildcard $(LOCALLIBDIR)/*/utility/*.cpp)
+CPP_FILES += $(wildcard $(LOCALLIBDIR)/*/src/*.cpp)
 
 S_FILES += $(wildcard $(LOCALLIBDIR)/*/*.S)
 S_FILES += $(wildcard $(LOCALLIBDIR)/*/utility/*.S)
+S_FILES += $(wildcard $(LOCALLIBDIR)/*/src/*.S)
 
 # arduino libraries
 ARDUINOLIBDIRS = $(foreach lib, $(ARDUINOLIBS), $(ARDUINOLIBDIR)/$(lib))

@@ -1,6 +1,11 @@
 [submodule "bench/picobench"]
 	path = bench/picobench
 	url = https://github.com/iboB/picobench
+
 [submodule "libs/Audio"]
 	path = libs/Audio
 	url = https://github.com/PaulStoffregen/Audio
+
+[submodule "libs/arduino_midi_library"]
+	path = libs/arduino_midi_library
+	url = https://github.com/FortySevenEffects/arduino_midi_library
