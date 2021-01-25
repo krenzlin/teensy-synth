@@ -14,7 +14,8 @@ upload: build
 check:
 	cppcheck --enable=all src/
 
-CPP_FLAGS=-Wall -Wpedantic -Wextra -g -fsanitize=address,undefined
+CPP_FLAGS=-Wall -Wpedantic -Wextra -g
+SAN_FLAGS=-fsanitize=address,undefined
 
 TEST_SRC_FILES := $(wildcard src/*.cpp) $(wildcard tests/*.cpp)
 TEST_SRC_FILES := $(filter-out src/main.cpp, $(TEST_SRC_FILES))
@@ -24,7 +25,7 @@ INCLUDES = -I./src/ -I./bench/picobench/include/ -I./tests/mocks
 
 bin/test: $(TEST_OBJS)
 	@mkdir -p $(dir $@)
-	g++ $(CPP_FLAGS) $(INCLUDES) -o $@ $^
+	g++ $(CPP_FLAGS) $(SAN_FLAGS) $(INCLUDES) -o $@ $^
 
 test: bin/test
 	bin/test
@@ -36,12 +37,22 @@ build/host/%.o : %.cpp
 
 BENCH_SRC_FILES := $(wildcard bench/*.cpp) $(wildcard src/*.cpp)
 BENCH_SRC_FILES := $(filter-out src/main.cpp, $(BENCH_SRC_FILES))
-BENCH_SRC_FILES := $(filter-out src/dac.cpp, $(BENCH_SRC_FILES))
 BENCH_OBJS := $(addprefix build/host/, $(BENCH_SRC_FILES:.cpp=.o))
 
 bin/bench: $(BENCH_OBJS)
 	@mkdir -p $(dir $@)
-	g++ $(CPP_FLAGS) $(INCLUDES) -o $@ $^
+	g++ $(CPP_FLAGS) $(SAN_FLAGS) $(INCLUDES) -o $@ $^
 
 bench: bin/bench
 	bin/bench --samples=100
+
+WRITE_SRC_FILES := tests/write_to_file.cpp $(wildcard src/*.cpp)
+WRITE_SRC_FILES := $(filter-out src/main.cpp, $(WRITE_SRC_FILES))
+WRITE_OBJS := $(addprefix build/host/, $(WRITE_SRC_FILES:.cpp=.o))
+
+bin/write: $(WRITE_OBJS)
+	g++ $(CPP_FLAGS) $(INCLUDES) -o $@ $^
+
+write: bin/write
+	@mkdir -p outputs
+	bin/write outputs/generated.wav
