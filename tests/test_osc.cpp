@@ -30,3 +30,12 @@ TEST_CASE("two saws") {
     REQUIRE(p_incr_2 > 0);
     REQUIRE(p_incr_2 > p_incr_1);
 }
+
+TEST_CASE("stupid test for PolyBLEPSaw") {
+    osc::PolyBLEPSaw saw;
+
+    saw.note_on(69);
+
+    int32_t old = saw.process();
+    REQUIRE(saw.process() > old);
+}

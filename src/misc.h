@@ -35,4 +35,22 @@ namespace misc {
     uint32_t fast_rand();
     float fast_float_rand();
     uint8_t random_note(uint8_t min=0, uint8_t max=127);
+
+    // PolyBLEP is normally calculated for phases going from 0 to 1
+    // This is an integer version so it will work for phases from 0..max
+    // Change max and types to your needs.
+    inline uint32_t polyblep(uint32_t p, uint32_t dp) {
+        constexpr uint32_t max {UINT32_MAX};
+
+        if (p < dp) {
+            p /= dp;
+            return -(p * p * max)/2 + p * max - max/2;
+
+        } else if (max - p < dp) {
+            p -= max;
+            p /= dp;
+            return (p*p*max)/2 + p*max + max/2;
+        }
+        return 0;
+    }
 }
