@@ -10,6 +10,14 @@ TEST_CASE("raising saw") {
     REQUIRE(saw.process() > old);
 }
 
+TEST_CASE("test values of Saw") {
+    osc::Saw saw;
+
+    saw.note_on(69);
+
+    REQUIRE(saw.process() == 0);
+}
+
 
 TEST_CASE("two saws") {
     // Sanity checks that two different notes have different phase increments
@@ -36,6 +44,9 @@ TEST_CASE("stupid test for PolyBLEPSaw") {
 
     saw.note_on(69);
 
+    // due to polyblep residual first sample is not zero but above
+    // so first sample will be higher than the next one
+
     int32_t old = saw.process();
-    REQUIRE(saw.process() > old);
+    REQUIRE(saw.process() < old);  // compare this to naive saw
 }
