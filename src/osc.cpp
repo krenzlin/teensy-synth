@@ -4,12 +4,15 @@
 
 
 void osc::Saw::note_on(uint8_t note, uint8_t /*velocity*/) {
+    note_ = note;
     p_incr = luts::m_to_incr[note];
     active = true;
 }
 
 void osc::Saw::note_off(uint8_t note, uint8_t /*velocity*/) {
-    active = false;
+    if (note == note_) {
+        active = false;
+    }
 }
 
 int32_t osc::Saw::process() {

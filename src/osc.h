@@ -8,6 +8,7 @@ namespace osc {
         uint32_t phase{0};
         uint32_t p_incr {0};
         int32_t sample{0};
+        uint8_t note_ {0};
 
         public:
             void note_on(uint8_t note, uint8_t velocity=127);
