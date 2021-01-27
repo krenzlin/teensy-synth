@@ -7,8 +7,7 @@ MIDI_CREATE_INSTANCE(HardwareSerial, Serial4, MIDI); // Serial5 is used by Audio
 
 AudioOutputI2S        i2s;
 AudioMixer4 mixer;
-Saw saw;
-Saw saw2;
+PolyBLEPSaw saw;
 AudioConnection       patchCord1(saw, 0, i2s, 0);
 AudioConnection       patchCord2(saw, 0, i2s, 1);
 AudioConnection mixer_to_i2s_l(mixer, 0, i2s, 0);

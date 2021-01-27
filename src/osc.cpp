@@ -27,10 +27,21 @@ int32_t osc::Saw::process() {
 }
 
 void osc::PolyBLEPSaw::note_on(uint8_t note, uint8_t /*velocity*/) {
+    note_ = note;
     p_incr = luts::m_to_incr[note];
+    active = true;
+}
+
+void osc::PolyBLEPSaw::note_off(uint8_t note, uint8_t /*velocity*/) {
+    if (note == note_) {
+        active = false;
+    }
 }
 
 int32_t osc::PolyBLEPSaw::process() {
+    if (!active) {
+        return 0;
+    }
     sample = misc::u32_to_s32(phase);
     sample -= misc::polyblep(phase, p_incr);
 
