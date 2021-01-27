@@ -2,6 +2,9 @@
 #include "luts.h"
 #include "misc.h"
 
+bool osc::Saw::is_active() {
+    return active;
+}
 
 void osc::Saw::note_on(uint8_t note, uint8_t /*velocity*/) {
     note_ = note;
@@ -16,7 +19,7 @@ void osc::Saw::note_off(uint8_t note, uint8_t /*velocity*/) {
 }
 
 int32_t osc::Saw::process() {
-    if (!active) {
+    if (!is_active()) {
         return 0;
     }
     sample = misc::u32_to_s32(phase);
@@ -26,6 +29,10 @@ int32_t osc::Saw::process() {
     return sample;
 }
 
+bool osc::PolyBLEPSaw::is_active() {
+    return active;
+}
+
 void osc::PolyBLEPSaw::note_on(uint8_t note, uint8_t /*velocity*/) {
     note_ = note;
     p_incr = luts::m_to_incr[note];
@@ -33,13 +40,11 @@ void osc::PolyBLEPSaw::note_on(uint8_t note, uint8_t /*velocity*/) {
 }
 
 void osc::PolyBLEPSaw::note_off(uint8_t note, uint8_t /*velocity*/) {
-    if (note == note_) {
-        active = false;
-    }
+    active = false;
 }
 
 int32_t osc::PolyBLEPSaw::process() {
-    if (!active) {
+    if (!is_active()) {
         return 0;
     }
     sample = misc::u32_to_s32(phase);

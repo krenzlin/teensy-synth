@@ -25,3 +25,5 @@ class AudioObject : public AudioStream, public T {
 
 using Saw = AudioObject<osc::Saw>;
 using PolyBLEPSaw = AudioObject<osc::PolyBLEPSaw>;
+
+using PolySaw = AudioObject<osc::VoiceManager<osc::PolyBLEPSaw>>;
