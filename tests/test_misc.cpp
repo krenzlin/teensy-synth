@@ -33,6 +33,14 @@ TEST_CASE("signed 32 bit to signed 16 bit") {
     REQUIRE(misc::s32_to_s16(INT32_MAX) == INT16_MAX);
 }
 
+TEST_CASE("signed 32 bit to float") {
+    REQUIRE(misc::s32_to_float(INT32_MAX) == +1.f);
+    REQUIRE(misc::s32_to_float(INT32_MAX/2) == .5f);
+    REQUIRE(misc::s32_to_float(0) == 0.f);
+    REQUIRE(misc::s32_to_float(INT32_MIN/2) == -.5f);
+    REQUIRE(misc::s32_to_float(INT32_MIN) == -1.f);
+}
+
 TEST_CASE("fast_rand") {
     uint32_t old {0};
     for (auto i=0; i<1000; i++) {

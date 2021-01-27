@@ -32,6 +32,10 @@ namespace misc {
         return x >> (32 - 16);
     }
 
+    inline float s32_to_float(const int32_t x) {
+        return (float) x / (float) INT32_MAX;
+    }
+
     uint32_t fast_rand();
     float fast_float_rand();
     uint8_t random_note(uint8_t min=0, uint8_t max=127);
