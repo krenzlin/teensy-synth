@@ -44,9 +44,8 @@ TEST_CASE("stupid test for PolyBLEPSaw") {
 
     saw.note_on(69);
 
-    // due to polyblep residual first sample is not zero but above
-    // so first sample will be higher than the next one
-
+    // saws start on signed 0 (in the middle of the ramp)
+    // so polyblep behaves as naive saw
     int32_t old = saw.process();
-    REQUIRE(saw.process() < old);  // compare this to naive saw
+    REQUIRE(saw.process() > old);
 }

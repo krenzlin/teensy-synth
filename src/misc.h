@@ -13,6 +13,7 @@ namespace misc {
 
     float m_to_f(const uint8_t note, const float tuning=tuning);
     uint32_t m_to_incr(const uint8_t note);
+    uint32_t f_to_incr(const float freq);
 
     uint16_t sr_to_us(const uint16_t sr=samplerate);
 
@@ -40,20 +41,31 @@ namespace misc {
     float fast_float_rand();
     uint8_t random_note(uint8_t min=0, uint8_t max=127);
 
-    // PolyBLEP is normally calculated for phases going from 0 to 1
-    // This is an integer version so it will work for phases from 0..max
-    // Change max and types to your needs.
-    inline uint32_t polyblep(uint32_t p, uint32_t dp) {
-        constexpr uint32_t max {UINT32_MAX};
+    /* PolyBLEP is normally calculated for phases going from 0 to 1
+     * This is an unsigned int version so it will work for phases from 0..UINT32_MAX
+     * and return a *signed* int
+     */
+    inline int32_t polyblep(uint32_t p, uint32_t dp) {
+        constexpr uint32_t max {INT32_MAX};
+
+        static float pf {0.f};
 
         if (p < dp) {
-            p /= dp;
-            return -(p * p * max)/2 + p * max - max/2;
+            pf = (float) p / (float) dp;
+            return -(pf * pf * max)/2 + pf * max - max/2;;
 
-        } else if (max - p < dp) {
-            p -= max;
-            p /= dp;
-            return (p*p*max)/2 + p*max + max/2;
+        } else if (UINT32_MAX - p < dp) {
+            /* used to be p -= UINT32_MAX & p /= dp
+             * BUT this would be negative (as nothing is bigger than UINT32_MAX)
+             * which cannot be repesented in uint32_t
+             * so instead calculate the positive (or abs) of it
+             * and use -p in the following calculations
+             * ALSO introduce a float version (pf) as the new p will be between 0..1
+             */
+            pf = (UINT32_MAX - p) / (float) dp;
+            // was (max*pf*pf)/2 + (max*pf) + max/2;
+            // using -pf -> pf^2 stays positiv but max*pf is negated
+            return (max*pf*pf)/2 - (max*pf) + max/2;
         }
         return 0;
     }

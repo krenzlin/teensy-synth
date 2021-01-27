@@ -90,7 +90,3 @@ TEST_CASE("random note w/ range") {
     REQUIRE(hit_min);
     REQUIRE(hit_max);
 }
-
-TEST_CASE("polyblep") {
-    REQUIRE(misc::polyblep(0, 42) == -(UINT32_MAX/2));
-}
