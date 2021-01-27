@@ -14,8 +14,7 @@ upload: build
 check:
 	cppcheck --enable=all src/
 
-CPP_FLAGS=-Wall -Wpedantic -Wextra -g
-SAN_FLAGS=-fsanitize=address,undefined
+CPP_FLAGS=-Wall -Wpedantic -Wextra -g -fsanitize=address,undefined
 
 TEST_SRC_FILES := $(wildcard src/*.cpp) $(wildcard tests/*.cpp)
 TEST_SRC_FILES := $(filter-out src/main.cpp, $(TEST_SRC_FILES))
@@ -27,7 +26,7 @@ INCLUDES = -I./src/ -I./bench/picobench/include/ -I./tests/mocks
 
 bin/test: $(TEST_OBJS)
 	@mkdir -p $(dir $@)
-	g++ $(CPP_FLAGS) $(SAN_FLAGS) $(INCLUDES) -o $@ $^
+	g++ $(CPP_FLAGS) $(INCLUDES) -o $@ $^
 
 test: bin/test
 	bin/test
@@ -43,7 +42,7 @@ BENCH_OBJS := $(addprefix build/host/, $(BENCH_SRC_FILES:.cpp=.o))
 
 bin/bench: $(BENCH_OBJS)
 	@mkdir -p $(dir $@)
-	g++ $(CPP_FLAGS) $(SAN_FLAGS) $(INCLUDES) -o $@ $^
+	g++ $(CPP_FLAGS) $(INCLUDES) -o $@ $^
 
 bench: bin/bench
 	bin/bench --samples=100
@@ -57,4 +56,4 @@ bin/write: $(WRITE_OBJS)
 
 write: bin/write
 	@mkdir -p outputs
-	bin/write outputs/generated.wav
+	LSAN_OPTIONS=suppressions=suppr.txt bin/write outputs/generated.wav

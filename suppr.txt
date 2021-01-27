@@ -1,0 +1,2 @@
+# tell ASan to suppress leak in wav_writer.h
+leak:stmlib::WavWriter::Write
