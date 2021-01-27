@@ -46,13 +46,11 @@ namespace misc {
      * and return a *signed* int
      */
     inline int32_t polyblep(uint32_t p, uint32_t dp) {
-        constexpr uint32_t max {INT32_MAX};
-
         static float pf {0.f};
 
         if (p < dp) {
             pf = (float) p / (float) dp;
-            return -(pf * pf * max)/2 + pf * max - max/2;;
+            return (-pf*pf/2 + pf - .5f) * INT32_MAX;
 
         } else if (UINT32_MAX - p < dp) {
             /* used to be p -= UINT32_MAX & p /= dp
@@ -65,7 +63,8 @@ namespace misc {
             pf = (UINT32_MAX - p) / (float) dp;
             // was (max*pf*pf)/2 + (max*pf) + max/2;
             // using -pf -> pf^2 stays positiv but max*pf is negated
-            return (max*pf*pf)/2 - (max*pf) + max/2;
+            // update: factoring out max
+            return (pf*pf/2 - pf + .5f) * INT32_MAX;
         }
         return 0;
     }
