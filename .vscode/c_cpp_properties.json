@@ -7,6 +7,7 @@
                 "${workspaceFolder}/arduino-1.8.13/hardware/teensy/avr/cores/teensy3/**",
                 "${workspaceFolder}/bench/picobench/include/**",
                 "${workspaceFolder}/libs/Audio/**",
+                "${workspaceFolder}/libs/ADSR/**",
                 "${workspaceFolder}/libs/Audio/utility/**",
                 "${workspaceFolder}/libs/arduino_midi_library/src/**",
                 "${workspaceFolder}/arduino-1.8.13/hardware/teensy/avr/libraries/**"
