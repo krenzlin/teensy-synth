@@ -5,6 +5,7 @@
 #include <string>
 
 #include "osc.h"
+#include "voices.h"
 #include "misc.h"
 
 #include "wav_writer.h"
@@ -23,21 +24,32 @@ int main(int argc, char** argv) {
         return -1;
     }
 
-    auto osc = osc::Saw();
+    auto osc = osc::PolySaw();
 
     auto writer = WavWriter(1, misc::samplerate, 10); // channels, sr, duration in s
     writer.Open(argv[1]);
 
-    auto note = 88;
+    float env = 0.f;
+
     while (!writer.done()) {
-        osc.note_on(note);
-        for (auto i=0; i<misc::samplerate/4; i++) {
+        osc.set_env(env);
+
+        osc.note_on(70);
+        osc.note_on(75);
+        for (auto i=0; i<misc::samplerate/2; i++) {
             int32_t sample = osc.process();
             float f_sample = misc::s32_to_float(sample);
-            //printf("%d -> %f\n", sample, f_sample);
             writer.Write(&f_sample, 1);
         }
-        //note += 1;
+
+        osc.note_off(70);
+        osc.note_off(75);
+        for (auto i=0; i<misc::samplerate/2; i++) {
+            int32_t sample = osc.process();
+            float f_sample = misc::s32_to_float(sample);
+            writer.Write(&f_sample, 1);
+        }
+        env += 0.1f;
     }
 
 }

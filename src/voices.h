@@ -1,5 +1,6 @@
 #pragma once
 #include <stdint.h>
+#include <math.h>
 #include "misc.h"
 #include "ADSR.h"
 
@@ -83,11 +84,12 @@ namespace osc {
         // one-knob ADSR
         void set_env(float value) {
             if (value < 0.5) {
-                value *= 2.f;
-                set_ADSR(0.f, value, value, 0.f);
-            } else if(value >= 0.5f) {
-                value -= 0.5f;
-                value *= 4.0;
+                float decay = powf(10, 1.5f * value);
+                float release = value;
+                set_ADSR(0.f, decay, 0.f, release);
+            } else if(value >= 0.5) {
+                value = (value - 0.5f) * 2.f;
+                float ar = powf(10, 2.f * value);
                 set_ADSR(value, 0, 1.0, value);
             }
         }

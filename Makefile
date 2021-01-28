@@ -16,13 +16,15 @@ check:
 
 CPP_FLAGS=-Wall -Wpedantic -Wextra -g -fsanitize=address,undefined
 
+SRC_FILES := $(wildcard src/*.cpp) $(wildcard libs/ADSR/*.cpp)
+
 TEST_SRC_FILES := $(wildcard src/*.cpp) $(wildcard tests/*.cpp)
 TEST_SRC_FILES := $(filter-out src/main.cpp, $(TEST_SRC_FILES))
 TEST_SRC_FILES := $(filter-out tests/write_to_file.cpp, $(TEST_SRC_FILES))
 
 TEST_OBJS := $(addprefix build/host/, $(TEST_SRC_FILES:.cpp=.o))
 
-INCLUDES = -I./src/ -I./bench/picobench/include/ -I./tests/mocks
+INCLUDES = -I./src/ -I./bench/picobench/include/ -I./tests/mocks -I./libs/ADSR/
 
 bin/test: $(TEST_OBJS)
 	@mkdir -p $(dir $@)
@@ -47,7 +49,7 @@ bin/bench: $(BENCH_OBJS)
 bench: bin/bench
 	bin/bench --samples=100
 
-WRITE_SRC_FILES := tests/write_to_file.cpp $(wildcard src/*.cpp)
+WRITE_SRC_FILES := tests/write_to_file.cpp $(SRC_FILES)
 WRITE_SRC_FILES := $(filter-out src/main.cpp, $(WRITE_SRC_FILES))
 WRITE_OBJS := $(addprefix build/host/, $(WRITE_SRC_FILES:.cpp=.o))
 
