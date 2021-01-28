@@ -23,13 +23,20 @@ void note_off(midi::Channel channel, byte note, byte velocity) {
     saw.note_off(note, velocity);
 }
 
+void handle_cc(midi::Channel channel, byte number, byte value) {
+    if (number == 1) {
+        float x = (float) value / 127.0;
+        x *= 2.0;
+        saw.set_env(x);
+    }
+}
+
 int main() {
     AudioMemory(10);
     sgtl5000_1.enable();
     sgtl5000_1.volume(0.3);
 
     MIDI.begin(MIDI_CHANNEL_OMNI);
-    saw.set_env(0.5);
 
     delay(500);
 
@@ -37,7 +44,7 @@ int main() {
 
     MIDI.setHandleNoteOn(note_on);
     MIDI.setHandleNoteOff(note_off);
-
+    MIDI.setHandleControlChange(handle_cc);
 
     while(1) {
         MIDI.read();
