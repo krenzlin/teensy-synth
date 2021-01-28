@@ -7,7 +7,7 @@ MIDI_CREATE_INSTANCE(HardwareSerial, Serial4, MIDI); // Serial5 is used by Audio
 
 AudioOutputI2S        i2s;
 AudioMixer4 mixer;
-PolySaw saw;
+AudioPolySaw saw;
 AudioConnection       patchCord1(saw, 0, i2s, 0);
 AudioConnection       patchCord2(saw, 0, i2s, 1);
 AudioConnection mixer_to_i2s_l(mixer, 0, i2s, 0);
@@ -29,7 +29,7 @@ int main() {
     sgtl5000_1.volume(0.3);
 
     MIDI.begin(MIDI_CHANNEL_OMNI);
-
+    saw.set_env(0.5);
 
     delay(500);
 
