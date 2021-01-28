@@ -1,5 +1,6 @@
 #include "Audio.h"
 #include "osc.h"
+#include "voices.h"
 #include "misc.h"
 
 #define AUDIO_BLOCK_SAMPLES 128
