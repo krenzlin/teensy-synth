@@ -82,7 +82,14 @@ namespace osc {
 
         // one-knob ADSR
         void set_env(float value) {
-            set_ADSR(value, 0, 1.0, value);
+            if (value < 0.5) {
+                value *= 2.f;
+                set_ADSR(0.f, value, value, 0.f);
+            } else if(value >= 0.5f) {
+                value -= 0.5f;
+                value *= 4.0;
+                set_ADSR(value, 0, 1.0, value);
+            }
         }
     };
 

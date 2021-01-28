@@ -26,7 +26,6 @@ void note_off(midi::Channel channel, byte note, byte velocity) {
 void handle_cc(midi::Channel channel, byte number, byte value) {
     if (number == 1) {
         float x = (float) value / 127.0;
-        x *= 2.0;
         saw.set_env(x);
     }
 }
