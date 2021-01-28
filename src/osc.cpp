@@ -39,7 +39,7 @@ void osc::PolyBLEPSaw::note_on(uint8_t note, uint8_t /*velocity*/) {
     active = true;
 }
 
-void osc::PolyBLEPSaw::note_off(uint8_t note, uint8_t /*velocity*/) {
+void osc::PolyBLEPSaw::note_off(uint8_t /*note*/, uint8_t /*velocity*/) {
     active = false;
 }
 

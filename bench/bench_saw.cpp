@@ -2,10 +2,10 @@
 
 #include "osc.h"
 
-PICOBENCH_SUITE("benchmark Saw::process");
+PICOBENCH_SUITE("benchmark Saw and PolyBLEPSaw");
 
 // Benchmarking function written by the user:
-static void saw_process(picobench::state& s)
+static void saw(picobench::state& s)
 {
     osc::Saw saw;
     saw.note_on(69);
@@ -17,9 +17,9 @@ static void saw_process(picobench::state& s)
     s.stop_timer(); // Manual stop
 }
 
-PICOBENCH(saw_process).baseline(); // Register the above function with picobench as baseline
+PICOBENCH(saw).baseline(); // Register the above function with picobench as baseline
 
-static void two_saw_process(picobench::state& s)
+static void two_saws(picobench::state& s)
 {
     osc::Saw saw1;
     osc::Saw saw2;
@@ -36,22 +36,9 @@ static void two_saw_process(picobench::state& s)
     s.stop_timer(); // Manual stop
 }
 
-PICOBENCH(two_saw_process);
+PICOBENCH(two_saws);
 
 static void note_on(picobench::state& s)
-{
-    osc::Saw saw;
-
-    s.start_timer(); // Manual start
-    for (auto _ : s) {
-        saw.note_on(69);
-    }
-    s.stop_timer(); // Manual stop
-}
-
-PICOBENCH(note_on);
-
-static void process_with_note_on(picobench::state& s)
 {
     osc::Saw saw;
 
@@ -63,4 +50,21 @@ static void process_with_note_on(picobench::state& s)
     s.stop_timer();
 }
 
-PICOBENCH(process_with_note_on);
+PICOBENCH(note_on);
+
+
+// PolyBLEPSaw
+
+static void polyblep_saw(picobench::state& s)
+{
+    osc::PolyBLEPSaw saw;
+
+    s.start_timer();
+    saw.note_on(69);
+    for (auto _ : s) {
+        saw.process();
+    }
+    s.stop_timer();
+}
+
+PICOBENCH(polyblep_saw);
