@@ -90,7 +90,7 @@ namespace osc {
             } else if(value >= 0.5) {
                 value = (value - 0.5f) * 2.f;
                 float ar = powf(10, 2.f * value);
-                set_ADSR(value, 0, 1.0, value);
+                set_ADSR(ar, 0, 1.0, ar);
             }
         }
     };
