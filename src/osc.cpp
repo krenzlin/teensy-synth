@@ -7,7 +7,7 @@ void osc::Saw::note_on(uint8_t note, uint8_t /*velocity*/) {
     p_incr = luts::m_to_incr[note];
 }
 
-void osc::Saw::note_off(uint8_t note, uint8_t /*velocity*/) {
+void osc::Saw::note_off(uint8_t /*note*/, uint8_t /*velocity*/) {
 }
 
 int32_t osc::Saw::process() {
