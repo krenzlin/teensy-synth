@@ -2,6 +2,7 @@
 #include "luts.h"
 #include "misc.h"
 
+
 void osc::Saw::note_on(uint8_t note, uint8_t /*velocity*/) {
     note_ = note;
     p_incr = luts::m_to_incr[note];
@@ -39,16 +40,18 @@ void osc::KarplusStrong::note_on(uint8_t /*note*/, uint8_t /*velocity*/) {
     for (size_t i=0; i<forward.length(); i++) {
         forward.write(misc::fast_rand());
     }
+    backward.clear();
 }
 
 void osc::KarplusStrong::note_off(uint8_t /*note*/, uint8_t /*velocity*/) {
 }
 
 int32_t osc::KarplusStrong::process() {
-    uint32_t sample = (forward.read()/2.0 + backward.read()/2.0);
+    uint32_t output = forward.read();
+    uint32_t input = output / 2 + backward.read() / 2;
 
-    backward.write(forward.read());
-    forward.write(sample);
+    backward.write(output);
+    forward.write(input);
 
-    return misc::u32_to_s32(sample);
+    return misc::u32_to_s32(output);
 }
