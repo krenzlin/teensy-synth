@@ -1,6 +1,7 @@
 #pragma once
 #include <stdint.h>
 #include "delay.h"
+#include "filter.h"
 
 
 namespace osc {
@@ -30,7 +31,7 @@ namespace osc {
 
     class KarplusStrong {
         Delay<int32_t, 110> forward;
-        Delay<int32_t, 1> backward;
+        filter::LP lp;
 
         public:
             void note_on(uint8_t note, uint8_t velocity=127);

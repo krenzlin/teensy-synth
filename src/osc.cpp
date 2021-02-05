@@ -40,7 +40,6 @@ void osc::KarplusStrong::note_on(uint8_t /*note*/, uint8_t /*velocity*/) {
     for (size_t i=0; i<forward.length(); i++) {
         forward.write(misc::fast_rand());
     }
-    backward.clear();
 }
 
 void osc::KarplusStrong::note_off(uint8_t /*note*/, uint8_t /*velocity*/) {
@@ -48,10 +47,9 @@ void osc::KarplusStrong::note_off(uint8_t /*note*/, uint8_t /*velocity*/) {
 
 int32_t osc::KarplusStrong::process() {
     int32_t output = forward.read();
-    int32_t input = output / 2 + backward.read() / 2;
-    input *= 0.99;
 
-    backward.write(output);
+    int32_t input = lp.process(output);
+    input *= 0.99;
     forward.write(input);
 
     return output;
