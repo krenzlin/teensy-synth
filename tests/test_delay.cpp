@@ -29,3 +29,17 @@ TEST_CASE("delay returns input after N updates") {
         }
     }
 }
+
+TEST_CASE("delay returns zero after clearing") {
+    Delay<int32_t, 3> delay;
+
+    delay.write(1);
+    delay.write(2);
+    delay.write(3);
+
+    delay.clear();
+
+    REQUIRE(delay.read() == 0);
+    REQUIRE(delay.read() == 0);
+    REQUIRE(delay.read() == 0);
+}

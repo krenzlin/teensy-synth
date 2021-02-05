@@ -19,6 +19,10 @@ struct Delay {
         return values[ix];
     }
 
+    void clear() {
+        values.fill(0);
+    }
+
     void write(const T value) {
         values[ix] = value;
         ix = advance<N>(ix);
