@@ -11,12 +11,6 @@ struct Delay {
     size_t ix {0};
     std::array<T, N> values {};
 
-    Delay() {
-        for (size_t i=0; i<N; i++) {
-            values[i] = 0;
-        }
-    }
-
     inline size_t length() {
         return N;
     }
