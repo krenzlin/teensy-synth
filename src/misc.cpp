@@ -37,6 +37,7 @@ uint32_t misc::fast_rand() {
     const uint32_t m {2147483647U};
 
     X_k = (a * X_k) % m;
+    X_k *= 2;
     return X_k;
 }
 

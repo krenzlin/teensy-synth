@@ -13,6 +13,28 @@ TEST_CASE("fast_rand") {
     }
 }
 
+TEST_CASE("fast_rand distribution") {
+    constexpr auto bits {3};
+    constexpr auto n_buckets {1 << bits};
+    constexpr auto iters {100000};
+    constexpr int expected {iters / n_buckets};
+
+    int buckets[n_buckets] = {};
+
+    for (auto i=0; i<iters; i++) {
+        uint32_t value = misc::fast_rand();
+        uint8_t bucket = value >> (32 - bits);
+        REQUIRE(bucket >= 0);
+        REQUIRE(bucket < n_buckets);
+        buckets[bucket]++;
+    }
+
+    for (auto n=0; n<n_buckets; n++) {
+        CAPTURE(buckets[n]);
+        CHECK(buckets[n] == doctest::Approx(expected).epsilon(0.01));
+    }
+}
+
 TEST_CASE("fast_float_rand") {
     float old {0.0f};
     for (auto i=0; i<1000; i++) {
