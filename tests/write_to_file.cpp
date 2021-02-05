@@ -24,7 +24,7 @@ int main(int argc, char** argv) {
         return -1;
     }
 
-    auto osc = osc::PolySaw();
+    auto osc = osc::KarplusStrong();
 
     auto writer = WavWriter(1, misc::samplerate, 10); // channels, sr, duration in s
     writer.Open(argv[1]);
@@ -32,7 +32,7 @@ int main(int argc, char** argv) {
     float env = 0.f;
 
     while (!writer.done()) {
-        osc.set_env(env);
+        //osc.set_env(env);
 
         osc.note_on(70);
         osc.note_on(75);

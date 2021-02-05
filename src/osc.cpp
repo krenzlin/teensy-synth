@@ -34,3 +34,21 @@ int32_t osc::PolyBLEPSaw::process() {
 
     return sample;
 }
+
+void osc::KarplusStrong::note_on(uint8_t /*note*/, uint8_t /*velocity*/) {
+    for (size_t i=0; i<forward.length(); i++) {
+        forward.write(misc::fast_rand());
+    }
+}
+
+void osc::KarplusStrong::note_off(uint8_t /*note*/, uint8_t /*velocity*/) {
+}
+
+int32_t osc::KarplusStrong::process() {
+    uint32_t sample = (forward.read()/2.0 + backward.read()/2.0);
+
+    backward.write(forward.read());
+    forward.write(sample);
+
+    return misc::u32_to_s32(sample);
+}
