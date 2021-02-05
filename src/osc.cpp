@@ -47,11 +47,11 @@ void osc::KarplusStrong::note_off(uint8_t /*note*/, uint8_t /*velocity*/) {
 }
 
 int32_t osc::KarplusStrong::process() {
-    uint32_t output = forward.read();
-    uint32_t input = output / 2 + backward.read() / 2;
+    int32_t output = forward.read();
+    int32_t input = output / 2 + backward.read() / 2;
 
     backward.write(output);
     forward.write(input);
 
-    return misc::u32_to_s32(output);
+    return output;
 }

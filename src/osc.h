@@ -29,8 +29,8 @@ namespace osc {
     };
 
     class KarplusStrong {
-        Delay<uint32_t, 110> forward;
-        Delay<uint32_t, 1> backward;
+        Delay<int32_t, 110> forward;
+        Delay<int32_t, 1> backward;
 
         public:
             void note_on(uint8_t note, uint8_t velocity=127);
