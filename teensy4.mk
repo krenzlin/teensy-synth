@@ -1,10 +1,13 @@
-TARGET = synth
+NAME = synth
 
 SRCDIR = src
 BUILDDIR = build
 LOCALLIBDIR = libs
 ARDUINOPATH = arduino-1.8.13
 ARDUINOLIBS = SD SPI SerialFlash Wire
+
+COMMIT := $(shell git describe --match=NeVeRmAtCh --always --abbrev=7 --dirty)
+TARGET := $(BUILDDIR)/$(NAME)-$(COMMIT)
 
 MCU = IMXRT1062
 
