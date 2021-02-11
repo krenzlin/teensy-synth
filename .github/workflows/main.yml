@@ -1,0 +1,43 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the action will run. 
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      - name: Run tests
+        run: make test
+        
+      # Runs a set of commands using the runners shell
+      - name: Install Teensyduino
+        run: |
+          wget https://downloads.arduino.cc/arduino-1.8.13-linux64.tar.xz
+          wget https://www.pjrc.com/teensy/td_153/TeensyduinoInstall.linux64
+          wget https://www.pjrc.com/teensy/49-teensy.rules
+          tar -xf arduino-1.8.13-linux64.tar.xz
+          chmod 755 TeensyduinoInstall.linux64
+          ./TeensyduinoInstall.linux64 --dir=arduino-1.8.13
+          
+      - name: Build for Teensy
+        run: make build
+        
