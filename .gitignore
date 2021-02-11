@@ -3,6 +3,8 @@
 /bin
 /outputs
 
+/py3?/
+
 *.hex
 *.elf
 
